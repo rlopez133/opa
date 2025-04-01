@@ -18,7 +18,7 @@
 
 
 - name: Create temp files for OPA policies
-  tempfile:
+  ansible.builtin.tempfile:
     state: file
     suffix: .rego
   loop: "{{ opa_policies }}"
@@ -27,15 +27,39 @@
   register: temp_files
 
 - name: Download Rego files from GitHub into temp files
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ item.item.url }}"
     dest: "{{ item.path }}"
   loop: "{{ temp_files.results }}"
   loop_control:
     label: "{{ item.item.name }}"
 
-- name: Upload Rego policies to OPA
+- name: Ensure old policy is removed
+  ansible.builtin.uri:
+    url: "{{ opa_url }}/v1/policies/{{ item.item.name }}"
+    method: DELETE
+    status_code: [200, 404]
+    validate_certs: true
+  loop: "{{ temp_files.results }}"
+  loop_control:
+    label: "{{ item.item.name }}"
+
+- name: Upload new Rego policy
   uri:
+    url: "{{ opa_url }}/v1/policies/{{ item.item.name }}"
+    method: PUT
+    headers:
+      Content-Type: text/plain
+    body: "{{ lookup('file', item.path) }}"
+    body_format: raw
+    status_code: 200
+  loop: "{{ temp_file_results.results }}"
+  loop_control:
+    label: "{{ item.item.name }}"
+
+
+- name: Upload Rego policies to OPA
+  ansible.builtin.uri:
     url: "{{ opa_url }}/v1/policies/{{ item.item.name }}"
     method: PUT
     headers:
@@ -46,6 +70,7 @@
   loop: "{{ temp_files.results }}"
   loop_control:
     label: "{{ item.item.name }}"
+  register: policy_load_results
 
 
 
