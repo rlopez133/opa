@@ -13,7 +13,7 @@ Within AAP, create a Job Template with the following content. Notice that you wi
 
 ## How do I add additional policies?
 
-Within the[roles/opa/defaults/main.yml](https://github.com/rlopez133/opa/blob/main/collections/ansible_collections/rlopez/opa/roles/opa/defaults/main.yml) file you can append additional policies and re-run the Ansible playbook to get them added.
+Within the [roles/opa/defaults/main.yml](https://github.com/rlopez133/opa/blob/main/collections/ansible_collections/rlopez/opa/roles/opa/defaults/main.yml) file you can append additional policies and re-run the Ansible playbook to get them added.
 
 
 These are example policies that are available and currently part of the OPA
