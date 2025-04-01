@@ -53,7 +53,7 @@
     body: "{{ lookup('file', item.path) }}"
     body_format: raw
     status_code: 200
-  loop: "{{ temp_file_results.results }}"
+  loop: "{{ temp_files.results }}"
   loop_control:
     label: "{{ item.item.name }}"
 
