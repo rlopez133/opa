@@ -13,21 +13,23 @@ cpu_limit: 500m
 memory_request: 256Mi
 memory_limit: 512Mi
 
+
 # OPA policies to load from Git repository
 opa_policies:
   - name: allowed_false
-    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/refs/heads/main/aap_policy_examples/allowed_false.rego"
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/allowed_false.rego"
   - name: extra_vars_validation
-    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/refs/heads/main/aap_policy_examples/extra_vars_validation.rego"
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/extra_vars_validation.rego"
   - name: extra_vars_whitelist
-    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/refs/heads/main/aap_policy_examples/extra_vars_whitelist.rego"
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/extra_vars_whitelist.rego"
   - name: global_credential_allowed_false
-    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/refs/heads/main/aap_policy_examples/global_credential_allowed_false.rego"
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/global_credential_allowed_false.rego"
   - name: maintenance_window
-    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/refs/heads/main/aap_policy_examples/maintenance_window.rego"
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/maintenance_window.rego"
   - name: mismatch_prefix_allowed_false
-    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/refs/heads/main/aap_policy_examples/mismatch_prefix_allowed_false.rego"
-  - name: superuser_allowed_false 
-    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/refs/heads/main/aap_policy_examples/superuser_allowed_false.rego"
-  - name:  team_based_extra_vars_restriction
-    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/refs/heads/main/aap_policy_examples/team_based_extra_vars_restriction.rego"
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/mismatch_prefix_allowed_false.rego"
+  - name: superuser_allowed_false
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/superuser_allowed_false.rego"
+  - name: team_based_extra_vars_restriction
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/team_based_extra_vars_restriction.rego"
+
