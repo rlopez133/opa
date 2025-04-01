@@ -1,0 +1,8 @@
+---
+- name: Install OPA
+  hosts: localhost
+  collections:
+    - kubernetes.core
+
+  roles:
+    - rlopez.opa.opa
