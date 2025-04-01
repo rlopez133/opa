@@ -16,7 +16,7 @@
   ansible.builtin.set_fact:
     opa_url: "https://{{ opa_route.resources[0].spec.host }}"
 
-
+# Results get stored in temp_files results
 - name: Create temp files for OPA policies
   ansible.builtin.tempfile:
     state: file
@@ -26,6 +26,12 @@
     label: "{{ item.name }}"
   register: temp_files
 
+# Looping over temp_files.results thus its item.item.name
+# registered temp_files, so now:
+# item = result from the temp file loop
+# item.item = the policy you're processing
+# item.path = the file created for that policy
+
 - name: Download Rego files from GitHub into temp files
   ansible.builtin.get_url:
     url: "{{ item.item.url }}"
@@ -34,6 +40,8 @@
   loop_control:
     label: "{{ item.item.name }}"
 
+
+# Looping over temp_files.results thus its item.item.name
 - name: Ensure old policy is removed
   ansible.builtin.uri:
     url: "{{ opa_url }}/v1/policies/{{ item.item.name }}"
@@ -42,8 +50,9 @@
     validate_certs: true
   loop: "{{ temp_files.results }}"
   loop_control:
-    label: "{{ item.item.name }}"
+    label: "{{ item.item.name }}"a
 
+# Looping over temp_files.results thus its item.item.name
 - name: Upload new Rego policy
   uri:
     url: "{{ opa_url }}/v1/policies/{{ item.item.name }}"
@@ -56,7 +65,6 @@
   loop: "{{ temp_files.results }}"
   loop_control:
     label: "{{ item.item.name }}"
-
 
 - name: Upload Rego policies to OPA
   ansible.builtin.uri:
@@ -72,21 +80,11 @@
     label: "{{ item.item.name }}"
   register: policy_load_results
 
-
-
-#- name: Load OPA policies from Git URLs
-#  ansible.builtin.uri:
-#    url: "{{ opa_url }}/v1/policies/{{ item.name }}"
-#    method: PUT
-#    body: "{{ lookup('url', item.url) }}"
-#    body_format: raw
-#    headers:
-#      Content-Type: text/plain
-#    status_code: 200
-#    validate_certs: true
-#    follow_redirects: all
-#  loop: "{{ opa_policies }}"
-#  register: policy_load_results
+# Looping over policy_results.results so now its item.item.item.name
+# item = result of uploading
+# item.item = the loop input from temp_files.results
+# item.item.item = the original policy
+# item.item.item.name = the actual policy name like allowed_false
 
 - name: Display policy load results
   ansible.builtin.debug:
