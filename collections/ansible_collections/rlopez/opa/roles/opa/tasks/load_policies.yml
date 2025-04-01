@@ -21,18 +21,15 @@
   tempfile:
     state: file
     suffix: .rego
-  register: temp_file
   loop: "{{ opa_policies }}"
   loop_control:
     label: "{{ item.name }}"
-  vars:
-    policy: "{{ item }}"
   register: temp_files
 
 - name: Download Rego files from GitHub into temp files
   get_url:
     url: "{{ item.item.url }}"
-    dest: "{{ item.temp_file.path }}"
+    dest: "{{ item.path }}"
   loop: "{{ temp_files.results }}"
   loop_control:
     label: "{{ item.item.name }}"
@@ -43,7 +40,7 @@
     method: PUT
     headers:
       Content-Type: text/plain
-    body: "{{ lookup('file', item.temp_file.path) }}"
+    body: "{{ lookup('file', item.path) }}"
     body_format: raw
     status_code: 200
   loop: "{{ temp_files.results }}"
