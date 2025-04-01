@@ -1,0 +1,37 @@
+---
+- name: Get OPA route URL
+  kubernetes.core.k8s_info:
+    api_version: route.openshift.io/v1
+    kind: Route
+    name: "{{ opa_name }}"
+    namespace: "{{ namespace }}"
+  register: opa_route
+
+- name: Fail if OPA route is not found
+  ansible.builtin.fail:
+    msg: "OPA route '{{ opa_name }}' not found in namespace '{{ namespace }}'"
+  when: opa_route.resources is not defined or opa_route.resources | length == 0
+
+- name: Set OPA URL fact
+  ansible.builtin.set_fact:
+    opa_url: "https://{{ opa_route.resources[0].spec.host }}"
+
+- name: Load OPA policies from Git URLs
+  ansible.builtin.uri:
+    url: "{{ opa_url }}/v1/policies/{{ item.name }}"
+    method: PUT
+    body: "{{ lookup('url', item.url) }}"
+    body_format: raw
+    headers:
+      Content-Type: text/plain
+    status_code: 200
+    validate_certs: true
+    follow_redirects: all
+  loop: "{{ opa_policies }}"
+  register: policy_load_results
+
+- name: Display policy load results
+  ansible.builtin.debug:
+    msg: "{{ item.item.name }} policy loaded successfully"
+  loop: "{{ policy_load_results.results }}"
+  when: item.status == 200

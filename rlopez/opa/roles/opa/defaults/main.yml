@@ -1,0 +1,23 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for opa
+
+namespace: opa
+
+opa_image: openpolicyagent/opa:latest
+opa_name: opa
+replicas: 1
+
+cpu_request: 100m
+cpu_limit: 500m
+memory_request: 256Mi
+memory_limit: 512Mi
+
+# OPA policies to load from Git repository
+opa_policies:
+  - name: allowed_false
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/allowed_false.rego"
+  - name: maintenance_window
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/maintenance_window.rego"
+  - name: extra_vars_restriction_per_team
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/extra_vars_restriction_per_team.rego"
