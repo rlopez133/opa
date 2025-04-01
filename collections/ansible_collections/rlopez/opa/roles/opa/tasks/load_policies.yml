@@ -18,7 +18,7 @@
 
 - name: Load OPA policies from Git URLs
   ansible.builtin.uri:
-    url: "{{ opa_url }}/v1/policies/{{ item.name }}"
+    url: "{{ opa_url }}/v1/data/policies/{{ item.name }}"
     method: PUT
     body: "{{ lookup('url', item.url) }}"
     body_format: raw
