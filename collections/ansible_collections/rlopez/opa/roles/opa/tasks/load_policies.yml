@@ -16,19 +16,46 @@
   ansible.builtin.set_fact:
     opa_url: "https://{{ opa_route.resources[0].spec.host }}"
 
-- name: Load OPA policies from Git URLs
-  ansible.builtin.uri:
-    url: "{{ opa_url }}/v1/policies/{{ item.name }}"
-    method: PUT
-    body: "{{ lookup('url', item.url) }}"
-    body_format: raw
-    headers:
-      Content-Type: text/plain
-    status_code: 200
-    validate_certs: true
-    follow_redirects: all
+- name: Upload each Rego policy from GitHub
+  block:
+    - name: Create temp file
+      tempfile:
+        state: file
+        suffix: .rego
+      register: temp_file
+
+    - name: Download Rego
+      get_url:
+        url: "{{ item.url }}"
+        dest: "{{ temp_file.path }}"
+
+    - name: Upload Rego to OPA
+      uri:
+        url: "{{ opa_url }}/v1/policies/{{ item.name }}"
+        method: PUT
+        headers:
+          Content-Type: text/plain
+        body: "{{ lookup('file', temp_file.path) }}"
+        body_format: raw
+        status_code: 200
   loop: "{{ opa_policies }}"
-  register: policy_load_results
+  loop_control:
+    label: "{{ item.name }}"
+
+
+#- name: Load OPA policies from Git URLs
+#  ansible.builtin.uri:
+#    url: "{{ opa_url }}/v1/policies/{{ item.name }}"
+#    method: PUT
+#    body: "{{ lookup('url', item.url) }}"
+#    body_format: raw
+#    headers:
+#      Content-Type: text/plain
+#    status_code: 200
+#    validate_certs: true
+#    follow_redirects: all
+#  loop: "{{ opa_policies }}"
+#  register: policy_load_results
 
 - name: Display policy load results
   ansible.builtin.debug:
