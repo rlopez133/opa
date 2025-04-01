@@ -90,6 +90,6 @@
 
 - name: Display policy load results
   ansible.builtin.debug:
-    msg: "{{ item.name }} policy loaded successfully"
+    msg: "{{ item.item.item.name }} policy loaded successfully"
   loop: "{{ policy_load_results.results }}"
   when: item.status == 200
