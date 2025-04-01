@@ -6,20 +6,20 @@
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: "{{ namespace }}"
+        name: "{{ opa_namespace }}"
         labels:
-          kubernetes.io/metadata.name: "{{ namespace }}"
+          kubernetes.io/metadata.name: "{{ opa_namespace }}"
 
 - name: Create OPA Deployment
   kubernetes.core.k8s:
     state: present
-    namespace: "{{ namespace }}"
+    namespace: "{{ opa_namespace }}"
     definition:
       apiVersion: apps/v1
       kind: Deployment
       metadata:
         name: "{{ opa_name }}"
-        namespace: "{{ namespace }}"
+        namespace: "{{ opa_namespace }}"
         labels:
           app: "{{ opa_name }}"
       spec:

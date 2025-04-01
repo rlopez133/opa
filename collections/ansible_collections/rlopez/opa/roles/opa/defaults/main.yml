@@ -2,7 +2,7 @@
 ---
 # defaults file for opa
 
-namespace: opa
+opa_namespace: opa
 
 opa_image: openpolicyagent/opa:latest
 opa_name: opa

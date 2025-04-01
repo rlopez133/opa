@@ -4,13 +4,13 @@
 - name: Create OPA Service
   kubernetes.core.k8s:
     state: present
-    namespace: "{{ namespace }}"
+    namespace: "{{ opa_namespace }}"
     definition:
       apiVersion: v1
       kind: Service
       metadata:
         name: "{{ opa_name }}"
-        namespace: "{{ namespace }}"
+        namespace: "{{ opa_namespace }}"
         labels:
           app: "{{ opa_name }}"
       spec:

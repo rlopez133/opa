@@ -16,7 +16,7 @@
     api_version: apps/v1
     kind: Deployment
     name: "{{ opa_name }}"
-    namespace: "{{ namespace }}"
+    namespace: "{{ opa_namespace }}"
   register: opa_deployment
   until: 
     - opa_deployment.resources is defined

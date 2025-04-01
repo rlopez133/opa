@@ -5,7 +5,7 @@
     api_version: route.openshift.io/v1
     kind: Route
     name: "{{ opa_name }}"
-    namespace: "{{ namespace }}"
+    namespace: "{{ opa_namespace }}"
   register: opa_route
 
 - name: Display OPA access information

@@ -4,12 +4,12 @@
     api_version: route.openshift.io/v1
     kind: Route
     name: "{{ opa_name }}"
-    namespace: "{{ namespace }}"
+    namespace: "{{ opa_namespace }}"
   register: opa_route
 
 - name: Fail if OPA route is not found
   ansible.builtin.fail:
-    msg: "OPA route '{{ opa_name }}' not found in namespace '{{ namespace }}'"
+    msg: "OPA route '{{ opa_name }}' not found in namespace '{{ opa_namespace }}'"
   when: opa_route.resources is not defined or opa_route.resources | length == 0
 
 - name: Set OPA URL fact
@@ -50,7 +50,7 @@
     validate_certs: true
   loop: "{{ temp_files.results }}"
   loop_control:
-    label: "{{ item.item.name }}"a
+    label: "{{ item.item.name }}"
 
 # Looping over temp_files.results thus its item.item.name
 - name: Upload new Rego policy
