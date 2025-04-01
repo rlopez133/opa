@@ -16,31 +16,40 @@
   ansible.builtin.set_fact:
     opa_url: "https://{{ opa_route.resources[0].spec.host }}"
 
-- name: Upload each Rego policy from GitHub
-  block:
-    - name: Create temp file
-      tempfile:
-        state: file
-        suffix: .rego
-      register: temp_file
 
-    - name: Download Rego
-      get_url:
-        url: "{{ item.url }}"
-        dest: "{{ temp_file.path }}"
-
-    - name: Upload Rego to OPA
-      uri:
-        url: "{{ opa_url }}/v1/policies/{{ item.name }}"
-        method: PUT
-        headers:
-          Content-Type: text/plain
-        body: "{{ lookup('file', temp_file.path) }}"
-        body_format: raw
-        status_code: 200
+- name: Create temp files for OPA policies
+  tempfile:
+    state: file
+    suffix: .rego
+  register: temp_file
   loop: "{{ opa_policies }}"
   loop_control:
     label: "{{ item.name }}"
+  vars:
+    policy: "{{ item }}"
+  register: temp_files
+
+- name: Download Rego files from GitHub into temp files
+  get_url:
+    url: "{{ item.item.url }}"
+    dest: "{{ item.temp_file.path }}"
+  loop: "{{ temp_files.results }}"
+  loop_control:
+    label: "{{ item.item.name }}"
+
+- name: Upload Rego policies to OPA
+  uri:
+    url: "{{ opa_url }}/v1/policies/{{ item.item.name }}"
+    method: PUT
+    headers:
+      Content-Type: text/plain
+    body: "{{ lookup('file', item.temp_file.path) }}"
+    body_format: raw
+    status_code: 200
+  loop: "{{ temp_files.results }}"
+  loop_control:
+    label: "{{ item.item.name }}"
+
 
 
 #- name: Load OPA policies from Git URLs
