@@ -20,8 +20,6 @@ opa_policies:
     url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/allowed_false.rego"
   - name: extra_vars_validation
     url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/extra_vars_validation.rego"
-  - name: extra_vars_whitelist
-    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/extra_vars_whitelist.rego"
   - name: global_credential_allowed_false
     url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/global_credential_allowed_false.rego"
   - name: maintenance_window
