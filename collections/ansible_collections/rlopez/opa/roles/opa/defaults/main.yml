@@ -30,4 +30,6 @@ opa_policies:
     url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/superuser_allowed_false.rego"
   - name: team_based_extra_vars_restriction
     url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/team_based_extra_vars_restriction.rego"
+  - name: jt_naming_validation
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/jt_naming_validation.rego"
 
