@@ -23,7 +23,7 @@ opa_policies:
   - name: global_credential_allowed_false
     url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/global_credential_allowed_false.rego"
   - name: maintenance_window
-    url: "https://raw.githubusercontent.com/rlopez133/example-opa-policy-for-aap/main/aap_policy_examples/maintenance_window.rego"
+    url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/maintenance_window.rego"
   - name: mismatch_prefix_allowed_false
     url: "https://raw.githubusercontent.com/TheRealHaoLiu/example-opa-policy-for-aap/main/aap_policy_examples/mismatch_prefix_allowed_false.rego"
   - name: superuser_allowed_false
